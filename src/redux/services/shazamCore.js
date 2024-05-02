@@ -16,39 +16,22 @@ export const shazamCoreApi = createApi({
 	}),
 
 	endpoints: (builder) => ({
-		getTopCharts: builder.query({
-			query: () => "/charts/get-top-songs-in-world",
-		}),
-		getSongsByGenre: builder.query({
-			query: (genre) =>
-				`/charts/get-top-songs-in_world_by_genre?genre_id=${genre}`,
-		}),
-		getSongDetails: builder.query({
-			query: ({ songid }) => `/songs/get_details?id=${songid}`,
-		}),
-		getSongRelated: builder.query({
-			query: ({ songid, limit }) =>
-				`/songs/list-recommendations?id=${songid}&limit=${limit}`,
-		}),
-		getArtistDetails: builder.query({
-			query: (artistid) => `/artists/get-details?id=${artistid}`,
-		}),
-		getSongsByCountry: builder.query({
-			query: (country_code, limit) =>
-				`/charts/get-top-songs-in-country?country_code=${country_code}&limit=${limit}`,
-		}),
-		getSongsBySearch: builder.query({
-			query: (term) => `/search?term=${term}`,
-		}),
-	}),
-});
-
-export const {
-	useGetTopChartsQuery,
-	useGetSongDetailsQuery,
-	useGetSongRelatedQuery,
-	useGetArtistDetailsQuery,
-	useGetSongsByCountryQuery,
-	useGetSongsByGenreQuery,
-	useGetSongsBySearchQuery,
-} = shazamCoreApi;
+		getTopCharts: builder.query({ query: () => 'v1/charts/world' }),
+		getSongsByGenre: builder.query({ query: (genre) => `v1/charts/genre-world?genre_code=${genre}` }),
+		getSongsByCountry: builder.query({ query: (countryCode) => `v1/charts/country?country_code=${countryCode}` }),
+		getSongsBySearch: builder.query({ query: (searchTerm) => `v1/search/multi?search_type=SONGS_ARTISTS&query=${searchTerm}` }),
+		getArtistDetails: builder.query({ query: (artistId) => `v2/artists/details?artist_id=${artistId}` }),
+		getSongDetails: builder.query({ query: ({ songid }) => `v1/tracks/details?track_id=${songid}` }),
+		getSongRelated: builder.query({ query: ({ songid }) => `v1/tracks/related?track_id=${songid}` }),
+	  }),
+	});
+	
+	export const {
+	  useGetTopChartsQuery,
+	  useGetSongsByGenreQuery,
+	  useGetSongsByCountryQuery,
+	  useGetSongsBySearchQuery,
+	  useGetArtistDetailsQuery,
+	  useGetSongDetailsQuery,
+	  useGetSongRelatedQuery,
+	} = shazamCoreApi;
